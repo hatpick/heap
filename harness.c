@@ -11,7 +11,7 @@ int cmpfunc (const void * a, const void * b)
 }
 
 int main(int argc, char *argv[]){  
-    int i, v;
+    int i, v;    
     /* unsigned int s = nondet_unsigned_int();
     __CPROVER_assume(s < SIZE);
     printf ("LOG: size=%d\n", s);*/    
@@ -40,7 +40,6 @@ int main(int argc, char *argv[]){
     for(i = 0; i < SIZE ; i++) {        
         assert(hsort_arr[i] == qsort_arr[i]);
         printf("LOG: (HSORT, QSORT) %d, %d\n", hsort_arr[i], qsort_arr[i]);
-    }    
-    assert(0);
+    }        
     return 0;
 }

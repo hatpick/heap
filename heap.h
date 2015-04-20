@@ -11,15 +11,15 @@ typedef struct minHeap {
     node *elem ;
 } minHeap ;
 
-minHeap initMinHeap(int size);
-void heapify(minHeap *hp, int i);
-void buildMinHeap(minHeap *hp, int *arr, int size);
-void insertNode(minHeap *hp, int data);
-void deleteNode(minHeap *hp);
-int getMaxNode(minHeap *hp, int i);
-void deleteMinHeap(minHeap *hp);
-void inorderTraversal(minHeap *hp, int i);
-void preorderTraversal(minHeap *hp, int i);
-void postorderTraversal(minHeap *hp, int i);
-void levelorderTraversal(minHeap *hp);
-void heap_sort(minHeap *hp, int *arr, int size);
+minHeap initMinHeap(int);
+void heapify(minHeap *, int);
+void buildMinHeap(minHeap *, int *, int);
+void insertNode(minHeap *, int);
+void deleteNode(minHeap *);
+int getMaxNode(minHeap *, int);
+void deleteMinHeap(minHeap *);
+void inorderTraversal(minHeap *, int);
+void preorderTraversal(minHeap *, int);
+void postorderTraversal(minHeap *, int);
+void levelorderTraversal(minHeap *);
+void heap_sort(minHeap *, int *, int);
