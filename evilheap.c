@@ -138,6 +138,6 @@ void heap_sort(minHeap *hp, int *arr, int size){
         arr[size - 1 - i] = root.data;
         hp->elem[0] = hp->elem[i];        
         hp->size -= 1;
-        heapify(hp, 0);
+        heapify(hp, 1); //Here is the bug
     }    
 }
