@@ -31,6 +31,12 @@ int main(int argc, char *argv[]){
     /* build min heap */
     buildMinHeap(&hp, hsort_arr, SIZE);
 
+    /* check heap properties */
+    int minElementValue = hp.elem[0]->data;
+    for(i = 0; i < SIZE; i++){
+        assert(minElementValue <= hp.elem[i]->data);
+    }
+
     /* sort the array in place: HEAP SORT */
     heap_sort(&hp, hsort_arr, SIZE);
     /* sort the array in place: QSORT */
