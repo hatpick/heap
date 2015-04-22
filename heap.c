@@ -138,13 +138,12 @@ void levelorderTraversal(minHeap *hp) {
     }
 }
 
-void heap_sort(minHeap *hp, int *arr){    
+void heap_sort(minHeap *hp){    
     int i, j;  
     int topIndex = hp->size - 1;    
 
-    for(i = topIndex; i >= 0; i--) {        
-        arr[topIndex - i] = hp->elem[0].data;        
-        swap(&(hp->elem[0]), &(hp->elem[i]));        
+    for(i = topIndex; i >= 0; i--) {
+        swap(&(hp->elem[0]), &(hp->elem[i]));
         if(i > 0) {
             bubbleDown(hp, 0);
         }

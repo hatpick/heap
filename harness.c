@@ -47,7 +47,7 @@ void main(){
 
     /* compare sorts */
     for(i = 0; i < s ; i++) {        
-        printf("LOG: sorted arr[%d]: %d\n", i, hsort_arr[i]);
-        assert((i == 0) || hsort_arr[i] >= hsort_arr[i-1]);        
+        printf("LOG: sorted arr[%d]: %d\n", i, hp->elem[i]);
+        assert((i == 0) || hp->elem[i] >= hp->elem[i-1]);        
     }
 }
