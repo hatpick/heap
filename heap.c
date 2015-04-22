@@ -5,7 +5,7 @@
 
 minHeap initMinHeap(int size) {
     minHeap hp ;
-    hp.size = 0 ;
+    hp.size = size ;    
     return hp ;
 }
 
@@ -15,34 +15,44 @@ void swap(node *n1, node *n2) {
     *n2 = temp ;
 }
 
-void heapify(minHeap *hp, int i) {
-    int smallest = (LCHILD(i) < hp->size && hp->elem[LCHILD(i)].data < hp->elem[i].data) ? LCHILD(i) : i ;
-    if(RCHILD(i) < hp->size && hp->elem[RCHILD(i)].data < hp->elem[smallest].data) {
-        smallest = RCHILD(i) ;
+void bubbleUp(minHeap *hp, int i) {    
+    if(i <= 0) return;
+    int parentIndex = PARENT(i);
+    if(hp->elem[i].data < hp->elem[parentIndex].data){
+        swap(&(hp->elem[i]), &(hp->elem[parentIndex])) ;
+        bubbleUp(hp, parentIndex) ;
+    }  
+}
+
+void bubbleDown(minHeap *hp, int i) {     
+    int leftIndex = LCHILD(i);
+    int rightIndex = RCHILD(i);
+    int hasRight = 0;
+    if(leftIndex > hp->size){        
+        return;
     }
-    if(smallest != i) {
-        swap(&(hp->elem[i]), &(hp->elem[smallest])) ;
-        heapify(hp, smallest) ;
+    if(rightIndex > hp->size) hasRight = 1;
+    int smaller = leftIndex;
+    if(hasRight){
+        smaller = (hp->elem[leftIndex].data <= hp->elem[rightIndex].data) ? leftIndex : rightIndex;
     }
+
+    if(hp->elem[smaller].data < hp->elem[i].data){
+        swap(&(hp->elem[i]), &(hp->elem[smaller]));        
+        bubbleDown(hp, smaller);
+    }
+
 }
 
 void buildMinHeap(minHeap *hp, int *arr, int size) {
     int i;
-
-    for(i = 0; i < size; i++) {
-        if(hp->size) {
-            hp->elem = realloc(hp->elem, (hp->size + 1) * sizeof(node)) ;
-        } else {
-            hp->elem = malloc(sizeof(node)) ;
-        }
-        node nd ;
-        nd.data = arr[i] ;
-        hp->elem[(hp->size)++] = nd ;
-    }
-
-    for(i = (hp->size - 1) / 2; i >= 0; i--) {
-        heapify(hp, i) ;
-    }
+    hp->elem = malloc(sizeof(node) * size) ;
+    for(i = 0; i < size; i++) {        
+        node nd;
+        nd.data = arr[i] ;        
+        hp->elem[i] = nd ;           
+        bubbleUp(hp, i);        
+    }       
 }
 
 void insertNode(minHeap *hp, int data) {
@@ -56,11 +66,8 @@ void insertNode(minHeap *hp, int data) {
     nd.data = data ;
 
     int i = (hp->size)++ ;
-    while(i && nd.data < hp->elem[PARENT(i)].data) {
-        hp->elem[i] = hp->elem[PARENT(i)] ;
-        i = PARENT(i) ;
-    }
-    hp->elem[i] = nd ;
+    hp->elem[i] = nd;
+    bubbleUp(hp, i);    
 }
 
 void deleteNode(minHeap *hp) {
@@ -68,7 +75,7 @@ void deleteNode(minHeap *hp) {
         printf("Deleting node %d\n\n", hp->elem[0].data) ;
         hp->elem[0] = hp->elem[--(hp->size)] ;
         hp->elem = realloc(hp->elem, hp->size * sizeof(node)) ;
-        heapify(hp, 0) ;
+        bubbleDown(hp, 0) ;
     } else {
         printf("\nMin Heap is empty!\n") ;
         free(hp->elem) ;
@@ -94,14 +101,14 @@ void deleteMinHeap(minHeap *hp) {
     free(hp->elem) ;
 }
 
-void inorderTraversal(minHeap *hp, int i) {
+void inorderTraversal(minHeap *hp, int i) {    
     if(LCHILD(i) < hp->size) {
         inorderTraversal(hp, LCHILD(i)) ;
     }
-    printf("%d ", hp->elem[i].data) ;
+    printf("LOG:%d ", hp->elem[i].data) ;
     if(RCHILD(i) < hp->size) {
         inorderTraversal(hp, RCHILD(i)) ;
-    }
+    }    
 }
 
 void preorderTraversal(minHeap *hp, int i) {
@@ -131,13 +138,15 @@ void levelorderTraversal(minHeap *hp) {
     }
 }
 
-void heap_sort(minHeap *hp, int *arr, int size){    
-    int i;
-    for(i = size - 1; i >= 0; i--) {
-        node root = hp->elem[0];
-        arr[size - 1 - i] = root.data;
-        hp->elem[0] = hp->elem[i];        
-        hp->size -= 1;
-        heapify(hp, 0);
-    }    
+void heap_sort(minHeap *hp, int *arr){    
+    int i, j;  
+    int topIndex = hp->size - 1;    
+
+    for(i = topIndex; i >= 0; i--) {        
+        arr[topIndex - i] = hp->elem[0].data;        
+        swap(&(hp->elem[0]), &(hp->elem[i]));        
+        if(i > 0) {
+            bubbleDown(hp, 0);
+        }
+    }
 }
