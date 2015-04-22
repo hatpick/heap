@@ -23,4 +23,4 @@ void inorderTraversal(minHeap *, int);
 void preorderTraversal(minHeap *, int);
 void postorderTraversal(minHeap *, int);
 void levelorderTraversal(minHeap *);
-void heap_sort(minHeap *, int *);
+void heap_sort(minHeap *);

@@ -22,8 +22,7 @@ void main(){
     for(i = 0; i < s; i++) {
         v = nondet_int();
         hsort_arr[i] = v;        
-        /*qsort_arr[i] = v;*/
-        __CPROVER_assume(hsort_arr[i] < 70000 && hsort_arr[i] > 0);
+        /*qsort_arr[i] = v;*/        
         printf ("LOG: arr[%d] = %d\n", i, v);
     }        
 
@@ -41,13 +40,13 @@ void main(){
     }
 
     /* sort the array in place: HEAP SORT */
-    heap_sort(&hp, hsort_arr);
+    heap_sort(&hp);
     /* sort the array in place: QSORT */
     /* qsort(qsort_arr, s, sizeof(int), cmpfunc); */
 
     /* compare sorts */
     for(i = 0; i < s ; i++) {        
-        printf("LOG: sorted arr[%d]: %d\n", i, hp->elem[i]);
-        assert((i == 0) || hp->elem[i] >= hp->elem[i-1]);        
+        printf("LOG: sorted arr[%d]: %d\n", i, hp.elem[i].data);
+        assert((i == 0) || hp.elem[i].data >= hp.elem[i-1].data);
     }
 }
